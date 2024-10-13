@@ -72,7 +72,8 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
 ```
 ### 2. Compile and Setup
 1. **Generate RPC Stubs**
-    First, generate the necessary stubs for the RPC Server and RPC Client using the rpcgen utility. The `.x` file defines the interface for the three procedures:
+
+   First, generate the necessary stubs for the RPC Server and RPC Client using the rpcgen utility. The `.x` file defines the interface for the three procedures:
     ```
     rpcgen -a -C rpc.x
     ```
@@ -81,7 +82,7 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     `rpc_clnt.c`: RPC Client stub.
     `rpc_svc.c`: RPC Server stub.
     
-2. **Compile the RPC Server**
+3. **Compile the RPC Server**
 
    Compile the RPC Server which will handle the computation of the requested tasks.
 
@@ -90,30 +91,35 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
    The Socket Server (also RPC Client) forwards computation requests to the RPC Server and relays results back to the client.
 
 6. **Automate the Compilation**
-    There is a `Makefile` which helps you to automate the compilation of the `rpc_*.c files`:
+
+   There is a `Makefile` which helps you to automate the compilation of the `rpc_*.c files`:
     ```
     make
     ```
 
-7. **Compile the Socket Client**
-    The Socket Client allows the user to select a computation task and provides the necessary data:
+8. **Compile the Socket Client**
+
+   The Socket Client allows the user to select a computation task and provides the necessary data:
     ```
     gcc -o socket_client socket_client.c
     ```
 
 ### 3. Execute
 1. **Start the RPC Server**
-    First, start the RPC Server that will handle the remote computations:
+
+   First, start the RPC Server that will handle the remote computations:
     ```
     ./rpc_server
     ```
-2. **Start the Socket Server**
-    Next, start the Socket Server that acts as an intermediary between the Socket Clients and the RPC Server:
+3. **Start the Socket Server**
+
+   Next, start the Socket Server that acts as an intermediary between the Socket Clients and the RPC Server:
     ```
     ./rpc_client <port_number> <server_host>
     ```
-3. **Start the Socket Client**
-    Finally, start the Socket Client which will allow the user to input data and request computations:
+5. **Start the Socket Client**
+
+   Finally, start the Socket Client which will allow the user to input data and request computations:
     ```
     ./socket_client <port_number> <server_host>
     ```
@@ -193,7 +199,8 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
 
 ### 2. Μεταγλώττιση και Setup
 1. **Παραγωγή των RPC Stubs**
-    Πρώτα, παράγετε τα απαραίτητα stubs για τον RPC Διακομιστή και τον RPC Πελάτη χρησιμοποιώντας το εργαλείο `rpcgen`. Το αρχείο `.x` ορίζει τη διεπαφή για τις τρεις διαδικασίες:
+
+   Πρώτα, παράγετε τα απαραίτητα stubs για τον RPC Διακομιστή και τον RPC Πελάτη χρησιμοποιώντας το εργαλείο `rpcgen`. Το αρχείο `.x` ορίζει τη διεπαφή για τις τρεις διαδικασίες:
     ```
     rpcgen -a -C rpc.x
     ```
@@ -202,37 +209,44 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     `rpc_clnt.c`: Stub για τον RPC Πελάτη.
     `rpc_svc.c`: Stub για τον RPC Διακομιστή.
     
-2. **Μεταγλώττιση του RPC Διακομιστή**
-    Μεταγλωττίστε τον RPC Διακομιστή ο οποίος θα χειρίζεται τον υπολογισμό των ζητούμενων εργασιών.
+3. **Μεταγλώττιση του RPC Διακομιστή**
 
-3. **Μεταγλώττιση του Socket Διακομιστή (επίσης RPC Πελάτη)**
-    Ο Socket Διακομιστής (επίσης RPC Πελάτης) προωθεί τα αιτήματα υπολογισμού στον RPC Διακομιστή και επιστρέφει τα αποτελέσματα πίσω στον πελάτη.
+   Μεταγλωττίστε τον RPC Διακομιστή ο οποίος θα χειρίζεται τον υπολογισμό των ζητούμενων εργασιών.
 
-4. **Αυτοματοποίηση της Μεταγλώττισης**
-    Υπάρχει ένα `Makefile` που βοηθά στην αυτοματοποίηση της μεταγλώττισης των `rpc_*.c files`:
+5. **Μεταγλώττιση του Socket Διακομιστή (επίσης RPC Πελάτη)**
+
+   Ο Socket Διακομιστής (επίσης RPC Πελάτης) προωθεί τα αιτήματα υπολογισμού στον RPC Διακομιστή και επιστρέφει τα αποτελέσματα πίσω στον πελάτη.
+
+7. **Αυτοματοποίηση της Μεταγλώττισης**
+
+   Υπάρχει ένα `Makefile` που βοηθά στην αυτοματοποίηση της μεταγλώττισης των `rpc_*.c files`:
     ```
     make
     ```
 
-5. **Μεταγλώττιση του Socket Πελάτη**
-    Ο Socket Πελάτης επιτρέπει στον χρήστη να επιλέξει μια εργασία υπολογισμού και να παρέχει τα απαραίτητα δεδομένα:
+9. **Μεταγλώττιση του Socket Πελάτη**
+
+   Ο Socket Πελάτης επιτρέπει στον χρήστη να επιλέξει μια εργασία υπολογισμού και να παρέχει τα απαραίτητα δεδομένα:
     ```
     gcc -o socket_client socket_client.c
     ```
 
 ### 3. Εκτέλεση
 1. **Εκκίνηση του RPC Διακομιστή**
-    Πρώτα, ξεκινήστε τον RPC Διακομιστή που θα χειρίζεται τους απομακρυσμένους υπολογισμούς:
+
+   Πρώτα, ξεκινήστε τον RPC Διακομιστή που θα χειρίζεται τους απομακρυσμένους υπολογισμούς:
     ```
     ./rpc_server
     ```
-2. **Εκκίνηση του Socket Διακομιστή**
-    Στη συνέχεια, ξεκινήστε τον Socket Διακομιστή που λειτουργεί ως μεσολαβητής μεταξύ των Socket Πελατών και του RPC Διακομιστή:
+3. **Εκκίνηση του Socket Διακομιστή**
+
+   Στη συνέχεια, ξεκινήστε τον Socket Διακομιστή που λειτουργεί ως μεσολαβητής μεταξύ των Socket Πελατών και του RPC Διακομιστή:
     ```
     ./rpc_client <port_number> <server_host>
     ```
-3. **Εκκίνηση του Socket Πελάτη**
-    Τέλος, ξεκινήστε τον Socket Πελάτη που θα επιτρέπει στον χρήστη να εισάγει δεδομένα και να ζητά υπολογισμούς:
+5. **Εκκίνηση του Socket Πελάτη**
+
+   Τέλος, ξεκινήστε τον Socket Πελάτη που θα επιτρέπει στον χρήστη να εισάγει δεδομένα και να ζητά υπολογισμούς:
     ```
     ./socket_client <port_number> <server_host>
     ```
