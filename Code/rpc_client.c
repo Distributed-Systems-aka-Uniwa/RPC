@@ -19,14 +19,14 @@ void menu_prog_1(char *host, int newSock);
 int main (int argc, char *argv[])
 {
 /*  
- *  Δήλωση μεταβλητών
+ *  Variable declarations
  */
 	char *serverHost;
 	int sock, newSock, portNo, clientLen, pid;
 	int bindStatus, listenStatus, closeStatus, sendStatus;
 	struct sockaddr_in serverAddr, clientAddr;
 /*  
- *  Έλεγχος για εισαγωγή του port number και του host για σύνδεση στον socket server 
+ *  Check for the port number and host for connecting to the socket server 
  */
 	if (argc < 3) 
 	{
@@ -34,13 +34,13 @@ int main (int argc, char *argv[])
 		exit (1);
 	}
 /*  
- *  Άνοιγμα του socket server
+ *  Open the socket server
  */ 
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0)
 		printError("Error on opening socket... socket() failed to execute\n"); 
 /*
- *  Παραμετροποίηση μέτρων για την TCP σύνδεση socket client με socket server
+ *  Configure settings for the TCP connection between socket client and socket server
  */ 
 	bzero((char *) &serverAddr, sizeof(serverAddr));
 	portNo = atoi(argv[1]);
@@ -48,72 +48,71 @@ int main (int argc, char *argv[])
 	serverAddr.sin_port = htons(portNo);
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 /*
- *  Συσχέτιση του socket server με το port number
+ *  Bind the socket server to the port number
  */ 
 	bindStatus = bind(sock, (struct sockaddr *) &serverAddr, sizeof(serverAddr));
 	if (bindStatus < 0)
 		printError("Error on binding socket... bind() failed to execute.\n");
 /*
- *  Αναμονή για εισερχόμενες αιτήσεις από socket clients
+ *  Wait for incoming requests from socket clients
  */
 	listenStatus = listen(sock, 5);
 	if (listenStatus < 0)
-		printError("Error on listening incoming connections from clients... listen() failed to execute.\n");
+		printError("Error on listening to incoming connections from clients... listen() failed to execute.\n");
 /*
- *  Διαχείριση του αιτήματος ενός socket client για σύνδεση στον socker server με το port number που έχει συσχετιστεί
+ *  Handle a socket client’s request to connect to the socket server with the associated port number
  */	
 	for (;;)
 	{
 /*
- *  Αποδοχή του αιτήματος και έναρξη TCP σύνδεσης του αιτούμενου socket client  
- *  με τον socket server με την δημιουργία νέου socket 
+ *  Accept the request and start the TCP connection between the requesting socket client
+ *  and the socket server by creating a new socket
  */
 		clientLen = sizeof(clientAddr);
 		newSock = accept(sock, (struct sockaddr *) &clientAddr, &clientLen);
 		if (newSock < 0)
 			printError("Error on accepting incoming connection from a client... accept() failed to execute.\n");
 /*
- *  Δημιουργία νέας διεργασίας-παιδί 
+ *  Create a new child process 
  */
 		pid = fork();
 		if (pid < 0)
 			printError("Child process was not created... fork() failed to execute.\n");
 /*
- *  Κώδικας που θα εκτελέσει μόνο η διεργασία παιδί
+ *  Code that will be executed only by the child process
  */
 		if (pid == 0)
 		{
 /*
- *  Κλείσιμο του socket της διεργασίας γονέα 
+ *  Close the parent process socket
  */
 			closeStatus = close(sock);
 			if (closeStatus < 0)
 				printError("Error on closing the socket... close() failed to execute.\n");
 /*
- *  Κλήση της συνάρτησης που χειρίζεται rpc communication handlers για την κλήση rpc ρουτινών 
- *  που θα υπολογίζουν μέσω του rpc server, τα αποτελέσματα που επιθυμεί ο socket client
+ *  Call the function that handles rpc communication handlers for calling rpc routines
+ *  to calculate the results requested by the socket client through the rpc server
  */
 			serverHost = argv[2];
-			menu_prog_1 (serverHost, newSock);
+			menu_prog_1(serverHost, newSock);
 /*
- *  Κλείσιμο του νέου socket που δημιουργήθηκε με την έναρξη της 
- *  TCP σύνδεσης socket client-socket server
+ *  Close the new socket that was created when the TCP connection between socket client and socket server was established
  */
 			close(newSock);
 /*
- *  Τερματισμός του κώδικα της διεργασίας-παιδί
+ *  Terminate the code of the child process
  */
 			exit(0);
 		}
 	}
 /*
- *  Τερματισμός του κώδικα της διεργασίας-γονέα
+ *  Terminate the code of the parent process
  */
 	exit(0);
 }
 
 /*  
- *  Εκτύπωση σφάλματος σε περίπτωση αποτυχίας εκτέλεσης κάποιας συνάρτησης 
+ *  Print an error message in case of function execution failure
  */
 void printError(char *error_msg)
 {
@@ -121,14 +120,15 @@ void printError(char *error_msg)
 	exit(1);
 }
 
+
 /*
- *  Η συνάρτηση που χειρίζεται rpc communication handlers για την κλήση rpc ρουτινών 
- *  που θα υπολογίζουν μέσω του rpc server, τα αποτελέσματα που επιθυμεί ο socket client
+ *  The function that handles RPC communication handlers for calling RPC routines 
+ *  that will compute the results requested by the socket client through the RPC server
  */
 void menu_prog_1(char *host, int newSock)
 {
 /*  
- *  Δήλωση μεταβλητών
+ *  Variable declarations
  */
 	CLIENT *clnt;
 	int  *result_1;
@@ -143,46 +143,45 @@ void menu_prog_1(char *host, int newSock)
 	int *clientX, *clientY;
 	double clientR;
 /*
- * 	Παραλαβή του id του socket client
+ *  Receive the ID of the socket client
  */	
 	recvStatus = recv(newSock, &clientPid, sizeof(int), 0);
 	if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- * 	Εκτύπωση μηνύματος επιβεβαίωσης της TCP σύνδεσης socket client με τον socket server,
- *  με την εκτύπωση του socket client id να αποσαφηνίζει ποιος socket client αιτείται 
- *  επιθυμητά αποτελέσματα από τον socket server. Ο λόγος που ο socket server λαμβάνει και
- *  το socket client id είναι η συμφόρηση της εξυπηρέτησης αιτήσεων πολλαπλών socket client 
- *  που έχουν συνδεθεί
+ *  Print confirmation message of the TCP connection between the socket client and the socket server,
+ *  with the printed socket client ID clarifying which socket client is requesting 
+ *  the desired results from the socket server. The reason the socket server receives the
+ *  socket client ID is to handle requests from multiple socket clients that are connected.
  */	
-	printf("[Connection] : socket client with Id %d has been connected.\n", clientPid);
+	printf("[Connection] : socket client with ID %d has been connected.\n", clientPid);
 /*
- *  Παραλαβή των δεδομένων από τον αιτούμενο socket client, κλήση της rpc ρουτίνας μέσω του 
- *  rpc server με βάση την επιλογή του socket client από το μενού, παραλαβή αποτελεσμάτων
- *  από τον rpc server, εκτύπωση αποτελεσμάτων και αποστολή στον socket client
+ *  Receive the data from the requesting socket client, call the RPC routine via the 
+ *  RPC server based on the socket client's choice from the menu, receive the results
+ *  from the RPC server, print the results, and send them to the socket client.
  */
 	do
 	{
 /*
- *  Παραλαβή της επιλογής από το μενού, από τον αιτούμενο socket client
+ *  Receive the choice from the menu, from the requesting socket client
  */
 		recvStatus = recv(newSock, &clientChoice, sizeof(int), 0);
 		if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- *	Παραλαβή του μεγέθους Ν των διανυσμάτων, από τον αιτούμενο socket client
+ *  Receive the size \(N\) of the vectors, from the requesting socket client
  */
 		recvStatus = recv(newSock, &clientN, sizeof(int), 0);
 		if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- *	Παραλαβή της πραγματικής τιμής r, από τον αιτούμενο socket client
+ *  Receive the double value \(r\), from the requesting socket client
  */		
 		recvStatus = recv(newSock, &clientR, sizeof(double), 0);
 		if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- *	Παραλαβή του διανύσματος Χ, από τον αιτούμενο socket client
+ *  Receive vector \(X\), from the requesting socket client
  */	
 		clientX = (int *) malloc(clientN * sizeof(int));
 		if (clientX == NULL)
@@ -191,7 +190,7 @@ void menu_prog_1(char *host, int newSock)
 		if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- *	Παραλαβή του διανύσματος Υ, από τον αιτούμενο socket client
+ *  Receive vector \(Y\), from the requesting socket client
  */		
 		clientY = (int *) malloc(clientN * sizeof(int));
 		if (clientY == NULL)
@@ -200,30 +199,30 @@ void menu_prog_1(char *host, int newSock)
 		if (recvStatus < 0)
 			printError("Error on receiving data from client... recv() failed to execute\n");
 /*
- *	Επιλογή κλήσης της rpc ρουτίνας ανάλογα την επιλογή του socket client, 
- *  με την οποία θα εκτελέσει ο rpc server
+ *  Select the RPC routine call based on the socket client's choice, 
+ *  which will be executed by the RPC server.
  */			
 		switch (clientChoice)
 		{
 /*
- * 	Ο socket client επέλεξε την επιλογή 
- *  [1] Εσωτερικό γινόμενο των διανυσμάτων Χ * Υ
+ *  The socket client chose option 
+ *  [1] Inner product of vectors \(X * Y\)
  */	
 			case 1 :
 #ifndef	DEBUG
 				clnt = clnt_create (host, MENU_PROG, MENU_VER, "udp");
 				if (clnt == NULL) 
 				{
-					printf("Error on creating rpc server communication handler.\n");
+					printf("Error on creating RPC server communication handler.\n");
 					clnt_pcreateerror (host);
 					exit (1);
 				}
 #endif	/* DEBUG */
 /*
- *  Αρχικοποίηση των δεδομένων με τις κατάλληλες δομές για την rpc επικοινωνία
+ *  Initialize the data with the appropriate structures for the RPC communication
  */
 				printf("[%d]\t[1] Inner product of X * Y\n", clientPid);
-				printf("\tSending socket client's data to rpc server, waiting for results...\n");
+				printf("\tSending socket client's data to RPC server, waiting for results...\n");
 				innerproduct_1_arg.X.X_len = clientN;
 				innerproduct_1_arg.X.X_val = (int *) malloc (clientN * sizeof(int));
 				if (innerproduct_1_arg.X.X_val == NULL)
@@ -239,8 +238,8 @@ void menu_prog_1(char *host, int newSock)
 				}
 				innerproduct_1_arg.r = clientR;
 /*
- * 	Κλήση της rpc ρουτίνας "innerproduct_1", η οποία εκτελείται από τον rpc server που
- *  επιστρέφει το αποτέλεσμα στον rpc client
+ *  Call the RPC routine "innerproduct_1", which is executed by the RPC server and
+ *  returns the result to the RPC client
  */				
 				result_1 = innerproduct_1(&innerproduct_1_arg, clnt);
 				printf("\t---------------- Results -----------------\n");
@@ -248,9 +247,9 @@ void menu_prog_1(char *host, int newSock)
 				if (result_1 == (int *) NULL) 
 					clnt_perror (clnt, "call failed");
 /*
- *	Αποστολή των αποτελεσμάτων "[1] Εσωτερικό γινόμενο των διανυσμάτων Χ * Υ" στον socket client
+ *  Send the results "[1] Inner product of vectors \(X * Y\)" to the socket client
  */
-				printf("\tSending results to socket client with Id %d.\n", clientPid);
+				printf("\tSending results to socket client with ID %d.\n", clientPid);
 				sendStatus = send(newSock, result_1, sizeof(int), 0);
 				if (sendStatus < 0)
 					printError("Error on sending the results to socket client... send() failed to execute.\n");
@@ -262,23 +261,23 @@ void menu_prog_1(char *host, int newSock)
 				break;
 			case 2 :
 /*
- * 	Ο socket client επέλεξε την επιλογή 
- *  [2] Μέση τιμή κάθε διανύσματος
+ *  The socket client chose option 
+ *  [2] Average value of each vector
  */
 #ifndef	DEBUG
 				clnt = clnt_create (host, MENU_PROG, MENU_VER, "udp");
 				if (clnt == NULL) 
 				{
-					printf("Error on creating rpc server communication handler.\n");
+					printf("Error on creating RPC server communication handler.\n");
 					clnt_pcreateerror (host);
 					exit(1);
 				}
 #endif	/* DEBUG */
 /*
- *  Αρχικοποίηση των δεδομένων με τις κατάλληλες δομές για την rpc επικοινωνία
+ *  Initialize the data with the appropriate structures for the RPC communication
  */		
 				printf("[%d]\t[2] Average value of each vector\n", clientPid);
-				printf("\tSending socket client's data to rpc server, waiting for results...\n");
+				printf("\tSending socket client's data to RPC server, waiting for results...\n");
 				averages_1_arg.X.X_len = clientN;
 				averages_1_arg.X.X_val = (int *) malloc (clientN * sizeof(int));
 				if (averages_1_arg.X.X_val == NULL)
@@ -294,8 +293,8 @@ void menu_prog_1(char *host, int newSock)
 				}
 				averages_1_arg.r = clientR;
 /*
- * 	Κλήση της rpc ρουτίνας "averages_1", η οποία εκτελείται από τον rpc server που
- *  επιστρέφει το αποτέλεσμα στον rpc client
+ *  Call the RPC routine "averages_1", which is executed by the RPC server and
+ *  returns the result to the RPC client
  */
 				result_2 = averages_1(&averages_1_arg, clnt);
 				printf("\t---------------- Results -----------------\n");
@@ -304,9 +303,9 @@ void menu_prog_1(char *host, int newSock)
 				if (result_2 == (avgArray *) NULL) 
 					clnt_perror (clnt, "call failed");
 /*
- *	Αποστολή των αποτελεσμάτων "[2] Μέση τιμή κάθε διανύσματος" στον socket client
+ *  Send the results "[2] Average value of each vector" to the socket client
  */				
-				printf("\tSending results to socket client with Id %d.\n", clientPid);
+				printf("\tSending results to socket client with ID %d.\n", clientPid);
 				sendStatus = send(newSock, result_2->arr, 2 * sizeof(double), 0);
 				if (sendStatus < 0)
 					printError("Error on sending the results to socket client... send() failed to execute.\n");
@@ -318,23 +317,23 @@ void menu_prog_1(char *host, int newSock)
 				break;
 			case 3 :
 /*
- * 	Ο socket client επέλεξε την επιλογή 
- *  [3] Γινόμενο r * (X + Y)
+ *  The socket client chose option 
+ *  [3] Product of \(r * (X + Y)\)
  */
 #ifndef	DEBUG
 				clnt = clnt_create (host, MENU_PROG, MENU_VER, "udp");
 				if (clnt == NULL) 
 				{
-					printf("Error on creating rpc server communication handler.\n");
+					printf("Error on creating RPC server communication handler.\n");
 					clnt_pcreateerror (host);
 					exit (1);
 				}
 #endif	/* DEBUG */
 /*
- *  Αρχικοποίηση των δεδομένων με τις κατάλληλες δομές για την rpc επικοινωνία
+ *  Initialize the data with the appropriate structures for the RPC communication
  */				
-				printf("[%d]\t[3] Product of r * (X + Y)\n", clientPid);
-				printf("\tSending socket client's data to rpc server, waiting for results...\n");
+				printf("[%d]\t[3] Product of \(r * (X + Y)\)\n", clientPid);
+				printf("\tSending socket client's data to RPC server, waiting for results...\n");
 				product_1_arg.X.X_len = clientN;
 				product_1_arg.X.X_val = (int *) malloc (clientN * sizeof(int));
 				if (product_1_arg.X.X_val == NULL)
@@ -350,8 +349,8 @@ void menu_prog_1(char *host, int newSock)
 				}
 				product_1_arg.r = clientR;
 /*
- * 	Κλήση της rpc ρουτίνας "product_1", η οποία εκτελείται από τον rpc server που
- *  επιστρέφει το αποτέλεσμα στον rpc client
+ *  Call the RPC routine "product_1", which is executed by the RPC server and
+ *  returns the result to the RPC client
  */
 				result_3 = product_1(&product_1_arg, clnt);
 				printf("\t---------------- Results -----------------\n");
@@ -360,9 +359,9 @@ void menu_prog_1(char *host, int newSock)
 				if (result_3 == (productVector *) NULL) 
 					clnt_perror (clnt, "call failed");
 /*
- *	Αποστολή των αποτελεσμάτων "[3] Γινόμενο r * (X + Y)" στον socket client
+ *  Send the results "[3] Product of \(r * (X + Y)\)" to the socket client
  */				
-				printf("\tSending results to socket client with Id %d.\n", clientPid);
+				printf("\tSending results to socket client with ID %d.\n", clientPid);
 				sendStatus = send(newSock, result_3->vec.vec_val, sizeof(double) * clientN, 0);
 				if (sendStatus < 0)
 					printError("Error on sending the results to socket client... send() failed to execute.\n");
@@ -374,15 +373,16 @@ void menu_prog_1(char *host, int newSock)
 				break;
 			case 4 :
 /*
- * 	Ο socket client επέλεξε την επιλογή 
- *  [4] Έξοδος
+ *  The socket client chose option 
+ *  [4] Exit
  */
 				printf("[%d]\t[4] Exit\n", clientPid);
-				printf("[Disconnection] : socket client with Id %d has been disconnected.\n", clientPid);
+				printf("[Disconnection] : socket client with ID %d has been disconnected.\n", clientPid);
 				break;
 		}	
 	} while (clientChoice != 4);
 }
+
 
 
 

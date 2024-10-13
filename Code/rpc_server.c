@@ -8,33 +8,33 @@
 #include <stdlib.h>
 
 /*
- *  Η ρουτίνα "[1] Εσωτερικό γινόμενο των διανυσμάτων Χ * Υ"
+ *  Routine "[1] Inner product of vectors X * Y"
  */
 int* innerproduct_1_svc(inputData *argp, struct svc_req *rqstp)
 {
 	static int  result;
 	int i;
 /*
- *  Υπολογισμός του εσωτερικού γινομένου Χ * Υ
+ *  Calculation of the inner product X * Y
  */	
 	printf("[1] Inner product of X * Y\n");
 	result = 0;
 	for (i = 0; i < argp->X.X_len; i++)
 		result = result + argp->X.X_val[i] * argp->Y.Y_val[i];
 /*
- *  Εκτύπωση των αποτελεσμάτων του εσωτερικού γινομένου Χ * Υ
+ *  Print the results of the inner product X * Y
  */
 	printf("\t---------------- Results -----------------\n");
 	printf("\tX * Y : %d\n", result);
-	printf("\tSending results to rpc client.\n");
+	printf("\tSending results to RPC client.\n");
 /*
- *  Αποστολή των αποτελεσμάτων "[1] Εσωτερικό γινόμενο των διανυσμάτων Χ * Υ" στον rpc client
+ *  Send the results "[1] Inner product of vectors X * Y" to the RPC client
  */
 	return &result;
 }
 
 /*
- *  Η ρουτίνα "[2] Μέση τιμή κάθε διανύσματος"
+ *  Routine "[2] Average value of each vector"
  */
 avgArray* averages_1_svc(inputData *argp, struct svc_req *rqstp)
 {
@@ -42,7 +42,7 @@ avgArray* averages_1_svc(inputData *argp, struct svc_req *rqstp)
 	int i, sumX, sumY;
 	double avgX, avgY;
 /*
- *  Υπολογισμός του μέσου όρου των δύο διανυσμάτων Χ, Υ
+ *  Calculation of the average of the two vectors X, Y
  */
 	printf("[2] Average value of each vector\n");
 	sumX = 0;
@@ -56,27 +56,27 @@ avgArray* averages_1_svc(inputData *argp, struct svc_req *rqstp)
 	result.arr[0] = avgX;
 	result.arr[1] = avgY;
 /*
- *  Εκτύπωση του μέσου όρου των δύο διανυσμάτων Χ, Υ
+ *  Print the average of the two vectors X, Y
  */
 	printf("\t---------------- Results -----------------\n");
 	printf("\tAverage value of X : %lf\n", result.arr[0]);
 	printf("\tAverage value of Y : %lf\n", result.arr[1]);
-	printf("\tSending results to rpc client.\n");
+	printf("\tSending results to RPC client.\n");
 /*
- *  Αποστολή των αποτελεσμάτων "[2] Μέση τιμή κάθε διανύσματος" στον rpc client
+ *  Send the results "[2] Average value of each vector" to the RPC client
  */	
 	return &result;
 }
 
 /*
- *  Η ρουτίνα "[3] Γινόμενο r * (X + Y)"
+ *  Routine "[3] Product of r * (X + Y)"
  */
 productVector* product_1_svc(inputData *argp, struct svc_req *rqstp)
 {
 	static productVector  result;
 	int i;
 /*
- *  Υπολογισμός του γινομένου r * (X + Y) και εκχώρηση σ' ένα νέο διάνυσμα
+ *  Calculation of the product r * (X + Y) and storing it in a new vector
  */
 	printf("[3] Product of r * (X + Y)\n");
 	result.vec.vec_len = argp->X.X_len;
@@ -87,7 +87,7 @@ productVector* product_1_svc(inputData *argp, struct svc_req *rqstp)
 		exit(1);
 	}
 /*
- *	Εκτύπωση των περιεχομένων του διανύσματος r * (X + Y)
+ *  Print the contents of the vector r * (X + Y)
  */
 	printf("\t---------------- Results -----------------\n");
 	for (i = 0; i < result.vec.vec_len; i++) 
@@ -95,9 +95,9 @@ productVector* product_1_svc(inputData *argp, struct svc_req *rqstp)
 		result.vec.vec_val[i] = argp->r * (argp->X.X_val[i] + argp->Y.Y_val[i]);
 		printf("\tr * (X + Y)[%d] : %lf\n", i, result.vec.vec_val[i]);
 	}
-	printf("\tSending results to rpc client.\n");
+	printf("\tSending results to RPC client.\n");
 /*
- *  Αποστολή των αποτελεσμάτων "[3] Γινόμενο r * (X + Y)" στον rpc client
+ *  Send the results "[3] Product of r * (X + Y)" to the RPC client
  */
 	return &result;
 }

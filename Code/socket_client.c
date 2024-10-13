@@ -14,7 +14,7 @@ void checkChoice(int *ptr_choice);
 int main (int argc, char *argv[])
 {
 /*  
- *  Δήλωση μεταβλητών
+ *  Variable Declaration
  */
 	int i;
 	int sock, portNo, pid;
@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
 	struct sockaddr_in serverAddr;
 	struct hostent *server;
 /*  
- *  Έλεγχος για εισαγωγή του port number και του host για σύνδεση στον socket server 
+ *  Check for port number and host for connecting to the socket server 
  */
 	if (argc < 3)
 	{
@@ -36,14 +36,14 @@ int main (int argc, char *argv[])
 		exit(1);	
 	}
 /*  
- *  Άνοιγμα του socket client
+ *  Opening the socket client
  */ 
 	portNo = atoi(argv[1]);
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0)
 		printError("Error on opening socket... socket() failed to execute\n");
 /*  
- *  Ανάκτηση πληροφορίας για τον socket server host 
+ *  Retrieve information for the socket server host 
  */
 	server = gethostbyname(argv[2]);
 	if (server == NULL)
@@ -52,20 +52,20 @@ int main (int argc, char *argv[])
 		exit(1);
 	}
 /*
- *  Παραμετροποίηση μέτρων για την TCP σύνδεση socket client με socket server
+ *  Parameterization for TCP connection between the socket client and socket server
  */    
 	bzero((char *) &serverAddr, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET;
 	bcopy((char *) server->h_addr, (char *) &serverAddr.sin_addr.s_addr, server->h_length);
 	serverAddr.sin_port = htons(portNo);	
 /*  
- *  Σύνδεση σε socket server με ίδιο port number και ίδιο host 
+ *  Connect to the socket server with the same port number and host 
  */
 	connectionStatus = connect(sock, (struct sockaddr *) &serverAddr, sizeof(serverAddr));
 	if (connectionStatus < 0)
 		printError("Error on connecting to socket server... connect() failed to execute\n");
 /*
- * 	Αποστολή του id στον socket server
+ * 	Send the id to the socket server
  */	
 	pid = getpid();
 	printf("[%d] : connected to socket server.\n", pid);
@@ -73,17 +73,17 @@ int main (int argc, char *argv[])
 	if (sendStatus < 0)
 		printError("Error on sending data to socket server... send() failed to execute.\n");
 /*
- * 	Εισαγωγή και αποστολή δεδομένων στον socket server και αναμονή για παραλαβή και εκτύπωση αποτελεσμάτων
+ * 	Input and send data to the socket server, then wait to receive and print results
  */	
 	do
 	{
 /*
- * 	Εισαγωγή του μεγέθους n των διανυσμάτων X και Y
+ * 	Input the size n of vectors X and Y
  */
 		printf("Input the size of vectors X and Y : ");
 		scanf("%d", &n);
 /*
- *  Εισαγωγή του διανύσματος ακεραίων X
+ *  Input the integer vector X
  */
 		X = (int *) malloc(n * sizeof(int));
 		if (X == NULL)
@@ -95,7 +95,7 @@ int main (int argc, char *argv[])
 			scanf("%d", &X[i]);
 		}
 /*
- * 	Εισαγωγή του διανύσματος ακεραίων Y 
+ * 	Input vector Y of integers 
  */		
 		Y = (int *) malloc(n * sizeof(int));
 		if (Y == NULL)
@@ -107,12 +107,12 @@ int main (int argc, char *argv[])
 			scanf("%d", &Y[i]);
 		}
 /*
- * 	Εισαγωγή της πραγματικής τιμής διπλής ακρίβειας "r" 
+ * 	Input the double precision value "r" 
  */
 		printf("Input a value \"r\" of double range : ");
 		scanf("%lf", &r);
 /*
- * 	Εκτύπωση των δεδομένων και των επιλογών του μενού 
+ * 	Print the data and menu options 
  */
 		system("clear"); 
 		printf("\n---------------- Data ----------------\n");
@@ -123,50 +123,50 @@ int main (int argc, char *argv[])
 		printf("[3] Product of r * (X + Y)\n");
 		printf("[4] Exit\n");
 /*
- * 	Εισαγωγή, επιβεβαίωση και αποστολή της έγκυρης επιλογής από το μενού στον socket server 
+ * 	Input, validate, and send the valid menu choice to the socket server 
  */
 		checkChoice(&choice);
 		sendStatus = send(sock, &choice, sizeof(int), 0);
 			if (sendStatus < 0)
 				printError("Error on sending data to socket server... send() failed to execute.\n");
 /*
- * 	Αποστολή των δεδομένων, στον socket server
+ * 	Send data to the socket server
  */
 		if (choice != 4)
 		{
 /*
- * 	Αποστολή του μεγέθους n των διανυσμάτων X και Y, στον socket server
+ * 	Send the size n of vectors X and Y to the socket server
  */
 			printf("Sending data to socket server, waiting for results...\n");
 			sendStatus = send(sock, &n, sizeof(int), 0);
 			if (sendStatus < 0)
 				printError("Error on sending data to socket server... send() failed to execute.\n");
 /*
- * 	Αποστολή της πραγματικής τιμής διπλής ακρίβειας "r", στον socket server
+ * 	Send the double precision value "r" to the socket server
  */
 			sendStatus = send(sock, &r, sizeof(double), 0);
 			if (sendStatus < 0)
 				printError("Error on sending data to socket server... send() failed to execute.\n");
 /*
- * 	Αποστολή του διανύσματος X, στον socket server
+ * 	Send vector X to the socket server
  */			
 			sendStatus = send(sock, X, n * sizeof(int), 0);
 			if (sendStatus < 0)
 				printError("Error on sending data to socket server... send() failed to execute.\n");
 /*
- * 	Αποστολή του διανύσματος Y, στον socket server
+ * 	Send vector Y to the socket server
  */	
 			sendStatus = send(sock, Y, n * sizeof(int), 0);
 				if (sendStatus < 0)
 					printError("Error on sending data to socket server... send() failed to execute.\n");
 		}
 /*
- *  Παραλαβή επιθυμητών αποτελεσμάτων από τον socket server και εκτύπωση  
+ * 	Receive the desired results from the socket server and print 
  */
 		switch (choice)
 		{
 /*  [1] Inner product of X * Y
- *  Παραλαβή αποτελέσματος του εσωτερικού γινομένου Χ * Y από τον socket server και εκτύπωση  
+ * 	Receive the result of the inner product X * Y from the socket server and print 
  */
 			case 1 :
 				recvStatus = recv(sock, &recvResults1, sizeof(int), 0);
@@ -176,7 +176,7 @@ int main (int argc, char *argv[])
 				printf("Inner product X * Y : %d\n\n", recvResults1);
 				break;
 /*  [2] Average value of each vector
- *  Παραλαβή αποτελεσμάτων των μέσων όρων των διανυσμάτων Χ και Y από τον socket server και εκτύπωση  
+ * 	Receive the results of the averages of vectors X and Y from the socket server and print  
  */
 			case 2 :
 				recvStatus = recv(sock, recvResults2, 2 * sizeof(double), 0);
@@ -187,7 +187,7 @@ int main (int argc, char *argv[])
 				printf("Average value of vector Y : %lf\n\n", recvResults2[1]);
 				break;
 /*  [3] Product of r * (X + Y)
- *	Παραλαβή αποτελεσμάτων του διανύσματος πραγματικών αριθμών r * (Χ + Υ)από τον socket server και εκτύπωση 		
+ *	Receive the results of vector r * (X + Y) from the socket server and print 		
  */
             case 3 :
 				recvResults3 = (double *) malloc (n * sizeof(double));
@@ -203,17 +203,17 @@ int main (int argc, char *argv[])
 				break;
 		}
 /*  [4] Exit
- *  Έλεγχος επιλογής εξόδου από το μενού και τερματισμού σύνδεσης με τον socket server
+ * 	Check the choice to exit from the menu and terminate the connection with the socket server
  */
 	} while (choice != 4);
 /*  
- *  Κλείσιμο του socket client
+ * 	Close the socket client
  */
 	closeStatus = close(sock);
 	if (closeStatus < 0)
 		printError("Error on closing socket... close() failed to execute\n");
 /*  
- *  Αποδέσμευση μνήμης των διανυσμάτων Χ, Υ και r * (X + Y)
+ * 	Free the memory for vectors X, Y, and r * (X + Y)
  */
 	free(X);
 	free(Y);
@@ -223,7 +223,7 @@ int main (int argc, char *argv[])
 }
 
 /*  
- *  Εκτύπωση σφάλματος σε περίπτωση αποτυχίας εκτέλεσης κάποιας συνάρτησης 
+ * 	Print an error message in case of function execution failure 
  */
 void printError(char *error_msg)
 {
@@ -232,7 +232,7 @@ void printError(char *error_msg)
 }
 
 /*  
- *  Εκτύπωση των δεδομένων 
+ * 	Print the data 
  */
 void printData(int n, int *X, int *Y, double r, int pid)
 {
@@ -246,7 +246,7 @@ void printData(int n, int *X, int *Y, double r, int pid)
 }
 
 /*  
- *  Έλεγχος για τυχόν εισαγωγή άκυρης επιλογής από το μενού (έγκυρες επιλογές 1-4)
+ * 	Check for invalid input choice from the menu (valid choices are 1-4)
  */
 void checkChoice(int *ptrChoice)
 {
