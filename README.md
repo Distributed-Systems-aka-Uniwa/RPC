@@ -78,6 +78,7 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     rpcgen -a -C rpc.x
     ```
     This will generate:
+   
     `rpc.h`: Header file defining the structures and procedure prototypes.
     `rpc_clnt.c`: RPC Client stub.
     `rpc_svc.c`: RPC Server stub.
@@ -205,6 +206,7 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     rpcgen -a -C rpc.x
     ```
     Αυτό θα δημιουργήσει:
+   
     `rpc.h`: Αρχείο κεφαλίδας που ορίζει τις δομές και τις υπογραφές διαδικασιών.
     `rpc_clnt.c`: Stub για τον RPC Πελάτη.
     `rpc_svc.c`: Stub για τον RPC Διακομιστή.
