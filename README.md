@@ -82,18 +82,20 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     `rpc_svc.c`: RPC Server stub.
     
 2. **Compile the RPC Server**
-    Compile the RPC Server which will handle the computation of the requested tasks.
 
-3. **Compile the Socket Server (also RPC Client)**
-    The Socket Server (also RPC Client) forwards computation requests to the RPC Server and relays results back to the client.
+   Compile the RPC Server which will handle the computation of the requested tasks.
 
-4. **Automate the Compilation**
+4. **Compile the Socket Server (also RPC Client)**
+
+   The Socket Server (also RPC Client) forwards computation requests to the RPC Server and relays results back to the client.
+
+6. **Automate the Compilation**
     There is a `Makefile` which helps you to automate the compilation of the `rpc_*.c files`:
     ```
     make
     ```
 
-5. **Compile the Socket Client**
+7. **Compile the Socket Client**
     The Socket Client allows the user to select a computation task and provides the necessary data:
     ```
     gcc -o socket_client socket_client.c
