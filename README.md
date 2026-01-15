@@ -1,34 +1,79 @@
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/255px-Flag_of_the_United_Kingdom_%281-2%29.svg.png)
+<p align="center">
+  <img src="https://www.especial.gr/wp-content/uploads/2019/03/panepisthmio-dut-attikhs.png" alt="UNIWA" width="150"/>
+</p>
 
-# Concurrent Socket Server with ONC RPC Communication
+<p align="center">
+  <strong>UNIVERSITY OF WEST ATTICA</strong><br>
+  SCHOOL OF ENGINEERING<br>
+  DEPARTMENT OF COMPUTER ENGINEERING AND INFORMATICS
+</p>
 
-For the requested Assignment, click the link:  
-[Assignment](Assignment/)
+---
 
-For the Source Code, click the link:  
-[Code](Code/)
+<p align="center">
+  <strong>Distributed Systems</strong>
+</p>
 
-For the detailed Documentation, click the link:  
-[Documentation](Documentation/)
+<h1 align="center">
+  Mathematical Equations using Remote Procedure Call (RPC)
+</h1>
 
-## Overview
+<p align="center">
+  <strong>Vasileios Evangelos Athanasiou</strong><br>
+  Student ID: 19390005
+</p>
+
+<p align="center">
+  <a href="https://github.com/Ath21" target="_blank">GitHub</a> ·
+  <a href="https://www.linkedin.com/in/vasilis-athanasiou-7036b53a4/" target="_blank">LinkedIn</a>
+</p>
+
+<p align="center">
+  Supervisor: Doka Katerina, Senior Researcher<br>
+</p>
+
+<p align="center">
+  <a href="http://www.cslab.ece.ntua.gr/~doka/" target="_blank">UNIWA Profile</a> ·
+  <a href="https://www.linkedin.com/in/kdoka/" target="_blank">LinkedIn</a>
+</p>
+
+<p align="center">
+  Athens, May 2023
+</p>
+
+---
+
+## Project Overview
 
 This project involves creating a concurrent **socket server** using **TCP AF_INET (Internet Domain) sockets** in C. The server processes requests from clients to perform calculations based on two integer vectors and a real number. The computations are executed via **Remote Procedure Calls (RPC)** on a separate **RPC server**, which returns the results back to the client through the socket server.
 
-## Course Information
+---
 
-- **Course**: [Distributed Systems](https://ice.uniwa.gr/education/undergraduate/courses/distributed-systems/)
-- **Semester**: 6
-- **Program of Study**: [UNIWA](https://www.uniwa.gr/)
-- **Department**: [Informatics and Computer Engineering](https://ice.uniwa.gr/)
-- **Lab Instructor**: [Doka Aikaterini](http://www.cslab.ece.ntua.gr/~doka/)
-- **Academic Season**: 2022-2023
+## Table of Contents
 
-## Student Information
 
-- **Name**: Athanasiou Vasileios Evangelos
-- **Student ID**: 19390005
-- **Status**: Undergraduate
+| Section | Folder / File | Description |
+|------:|---------------|-------------|
+| 1 | `assign/` | Assignment material |
+| 1.1 | `assign/DS-LAB-ASK-1-2022-23.pdf` | Laboratory assignment description (English) |
+| 1.2 | `assign/ΚΣ-ΕΡΓΑΣΤΗΡΙΟ-ΑΣΚ-1-2022-23.pdf` | Περιγραφή εργαστηριακής άσκησης (Greek) |
+| 2 | `docs/` | Theoretical documentation |
+| 2.1 | `docs/Remote-Procedure-Call.pdf` | Remote Procedure Call (RPC) theory (English) |
+| 2.2 | `docs/Απομακρυσμένη-Κλήση-Διαδικασίας.pdf` | Απομακρυσμένη Κλήση Διαδικασίας – RPC (Greek) |
+| 3 | `src/` | Source code implementation |
+| 3.1 | `src/Makefile` | Build automation file |
+| 3.2 | `src/rpc.x` | RPC interface definition (XDR specification) |
+| 3.3 | `src/rpc.h` | RPC shared header file |
+| 3.4 | `src/rpc_xdr.c` | XDR data serialization/deserialization |
+| 3.5 | `src/rpc_server.c` | RPC server implementation |
+| 3.6 | `src/rpc_svc.c` | RPC service-side stub code |
+| 3.7 | `src/rpc_client.c` | RPC client implementation |
+| 3.8 | `src/rpc_clnt.c` | RPC client-side stub code |
+| 3.9 | `src/socket_client.c` | Low-level socket client implementation |
+| 4 | `README.md` | Repository overview and usage instructions |
+
+
+---
 
 ## Key Features
 
@@ -127,132 +172,10 @@ git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
     ./socket_client <port_number> <server_host>
     ```
 
-![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/255px-Flag_of_Greece.svg.png)
+---
 
-# Ταυτόχρονος Διακομιστής Sockets με Επικοινωνία ONC RPC
-
-Για την ζητούμενη Άσκηση, κάντε κλικ στον σύνδεσμο:  
-[Άσκηση](Assignment/)
-
-Για τον Πηγαίο Κώδικα, κάντε κλικ στον σύνδεσμο:  
-[Κώδικας](Code/)
-
-Για την λεπτομερή Τεκμηρίωση, κάντε κλικ στον σύνδεσμο:  
-[Τεκμηρίωση](Documentation/)
-
-## Επισκόπηση
-
-Αυτό το έργο περιλαμβάνει τη δημιουργία ενός ταυτόχρονου **διακομιστή sockets** χρησιμοποιώντας **TCP AF_INET (Internet Domain) sockets** σε C. Ο διακομιστής επεξεργάζεται αιτήματα από πελάτες για να εκτελέσει υπολογισμούς βάσει δύο ακέραιων διανυσμάτων και ενός πραγματικού αριθμού. Οι υπολογισμοί εκτελούνται μέσω **Κλήσεων Απομακρυσμένης Διαδικασίας (RPC)** σε έναν ξεχωριστό **RPC διακομιστή**, ο οποίος επιστρέφει τα αποτελέσματα πίσω στον πελάτη μέσω του διακομιστή sockets.
-
-## Πληροφορίες Μαθήματος
-
-- **Μάθημα**: [Κατανεμημένα Συστήματα](https://ice.uniwa.gr/education/undergraduate/courses/distributed-systems/)
-- **Εξάμηνο**: 6
-- **Πρόγραμμα Σπουδών**: [ΠΑΔΑ](https://www.uniwa.gr/)
-- **Τμήμα**: [Μηχανικών Πληροφορικής και Υπολογιστών](https://ice.uniwa.gr/)
-- **Διδάσκουσα**: [Δόκα Αικατερίνη](http://www.cslab.ece.ntua.gr/~doka/)
-- **Ακαδημαϊκή Χρονιά**: 2022-2023
-
-## Πληροφορίες Φοιτητή
-
-- **Όνομα**: Αθανασίου Βασίλειος Ευάγγελος
-- **Αριθμός Μητρώου**: 19390005
-- **Κατάσταση**: Προπτυχιακός Φοιτητής
-
-## Κύρια Χαρακτηριστικά
-
-- **Ταυτόχρονος Διακομιστής**: Ο διακομιστής χειρίζεται ταυτόχρονα πολλά αιτήματα πελατών χρησιμοποιώντας διεργασίες παιδιών.
-- **Επικοινωνία με Sockets TCP**: Οι πελάτες συνδέονται στον διακομιστή χρησιμοποιώντας TCP sockets για να στείλουν και να λάβουν δεδομένα.
-- **ONC RPC**: Ο διακομιστής, λειτουργώντας ως RPC πελάτης, επικοινωνεί με έναν εξωτερικό RPC διακομιστή για να εκτελέσει τους απαιτούμενους υπολογισμούς.
-- **Κλήσεις Απομακρυσμένης Διαδικασίας**: Ο διακομιστής χρησιμοποιεί τρεις ξεχωριστές λειτουργίες βασισμένες σε RPC για υπολογισμούς, ανάλογα με την επιλογή του χρήστη:
-  1. **Εσωτερικό Γινόμενο Δύο Διανυσμάτων** (`X * Y`)
-  2. **Μέση Τιμή Κάθε Διανύσματος** (`X̄`, `Ȳ`)
-  3. **Γινόμενο r\*(X + Y)**
-
-## Ροή Προγράμματος
-
-1. **Πλευρά Πελάτη**:  
-   - Ο χρήστης επιλέγει τον επιθυμητό υπολογισμό (εσωτερικό γινόμενο, μέση τιμή ή γινόμενο).
-   - Ο πελάτης στέλνει τα απαιτούμενα δεδομένα (`n`, διανύσματα `X` και `Y`, και πραγματικό αριθμό `r`) στον διακομιστή sockets.
-   - Ο πελάτης περιμένει το αποτέλεσμα από τον διακομιστή sockets, το οποίο επιστρέφεται μετά την επεξεργασία.
-
-2. **Πλευρά Διακομιστή**:  
-   - Ο διακομιστής δέχεται τη σύνδεση του πελάτη και λαμβάνει το αίτημα υπολογισμού.
-   - Προωθεί τα δεδομένα στον RPC διακομιστή για επεξεργασία.
-   - Ο διακομιστής λαμβάνει το υπολογισμένο αποτέλεσμα από τον RPC διακομιστή και το στέλνει πίσω στον πελάτη.
-
-3. **RPC Διακομιστής**:  
-   - Εκτελεί τον ζητούμενο υπολογισμό χρησιμοποιώντας τα δεδομένα που παρέχονται από τον διακομιστή sockets.
-
-## Απαιτήσεις
-
-- **Λειτουργικό Σύστημα:** Linux ή οποιοδήποτε Unix-like σύστημα που υποστηρίζει TCP sockets και ONC RPC.
-- **Βιβλιοθήκες:**
-    - ONC RPC (Open Network Computing Remote Procedure Call)
-    - Sockets `(sys/socket.h)`
-- **Εργαλεία:** `rpcgen` (για την παραγωγή RPC stubs), GCC (για τη μεταγλώττιση προγραμμάτων C).
-
-## Εγκατάσταση και Χρήση
-
-### 1. Κλωνοποιήστε το αποθετήριο
-Κατεβάστε το αποθετήριο στον τοπικό σας υπολογιστή:
-```
-git clone https://github.com/Distributed-Systems-aka-Uniwa/RPC.git
-```
-
-### 2. Μεταγλώττιση και Setup
-1. **Παραγωγή των RPC Stubs**
-
-   Πρώτα, παράγετε τα απαραίτητα stubs για τον RPC Διακομιστή και τον RPC Πελάτη χρησιμοποιώντας το εργαλείο `rpcgen`. Το αρχείο `.x` ορίζει τη διεπαφή για τις τρεις διαδικασίες:
-    ```
-    rpcgen -a -C rpc.x
-    ```
-    Αυτό θα δημιουργήσει:
-   
-    `rpc.h`: Αρχείο κεφαλίδας που ορίζει τις δομές και τις υπογραφές διαδικασιών.
-
-   `rpc_clnt.c`: Stub για τον RPC Πελάτη.
-
-   `rpc_svc.c`: Stub για τον RPC Διακομιστή.
-    
-3. **Μεταγλώττιση του RPC Διακομιστή**
-
-   Μεταγλωττίστε τον RPC Διακομιστή ο οποίος θα χειρίζεται τον υπολογισμό των ζητούμενων εργασιών.
-
-5. **Μεταγλώττιση του Socket Διακομιστή (επίσης RPC Πελάτη)**
-
-   Ο Socket Διακομιστής (επίσης RPC Πελάτης) προωθεί τα αιτήματα υπολογισμού στον RPC Διακομιστή και επιστρέφει τα αποτελέσματα πίσω στον πελάτη.
-
-7. **Αυτοματοποίηση της Μεταγλώττισης**
-
-   Υπάρχει ένα `Makefile` που βοηθά στην αυτοματοποίηση της μεταγλώττισης των `rpc_*.c files`:
-    ```
-    make
-    ```
-
-9. **Μεταγλώττιση του Socket Πελάτη**
-
-   Ο Socket Πελάτης επιτρέπει στον χρήστη να επιλέξει μια εργασία υπολογισμού και να παρέχει τα απαραίτητα δεδομένα:
-    ```
-    gcc -o socket_client socket_client.c
-    ```
-
-### 3. Εκτέλεση
-1. **Εκκίνηση του RPC Διακομιστή**
-
-   Πρώτα, ξεκινήστε τον RPC Διακομιστή που θα χειρίζεται τους απομακρυσμένους υπολογισμούς:
-    ```
-    ./rpc_server
-    ```
-3. **Εκκίνηση του Socket Διακομιστή**
-
-   Στη συνέχεια, ξεκινήστε τον Socket Διακομιστή που λειτουργεί ως μεσολαβητής μεταξύ των Socket Πελατών και του RPC Διακομιστή:
-    ```
-    ./rpc_client <port_number> <server_host>
-    ```
-5. **Εκκίνηση του Socket Πελάτη**
-
-   Τέλος, ξεκινήστε τον Socket Πελάτη που θα επιτρέπει στον χρήστη να εισάγει δεδομένα και να ζητά υπολογισμούς:
-    ```
-    ./socket_client <port_number> <server_host>
-    ```
+## Open the Documentation
+1. Navigate to the `docs/` directory
+2. Open the report corresponding to your preferred language:
+    - English: `Remote-Procedure-Call.pdf`
+    - Greek: `Απομακρυσμένη-Κλήση-Διαδικασίας.pdf`
