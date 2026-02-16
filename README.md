@@ -29,7 +29,22 @@
 </p>
 
 <p align="center">
-  Supervisor: Doka Katerina, Senior Researcher<br>
+  Supervisor: Vasileios Mamalis, Professor
+</p>
+<p align="center">
+  <a href="https://ice.uniwa.gr/en/emd_person/vassilios-mamalis/" target="_blank">UNIWA Profile</a>
+</p>
+
+<p align="center">
+  Supervisor: Grammati Pantziou, Professor
+</p>
+<p align="center">
+  <a href="https://ice.uniwa.gr/en/emd_person/grammati-pantziou/" target="_blank">UNIWA Profile</a> ·
+  <a href="https://www.linkedin.com/in/grammati-pantziou-4731bb10a/" target="_blank">LinkedIn</a>
+</p>
+
+<p align="center">
+  Co-supervisor: Doka Katerina, Senior Researcher<br>
 </p>
 
 <p align="center">
